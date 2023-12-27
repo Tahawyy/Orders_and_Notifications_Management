@@ -1,10 +1,9 @@
 package com.example.orders_and_notification_management.RestControllers;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.orders_and_notification_management.Services.ProductService;
 import com.example.orders_and_notification_management.Models.Product;
 
@@ -30,6 +29,19 @@ public class ProductController {
         else {
             return ResponseEntity.status(404).body(product); // 404 Not Found
         }
+    }
+
+    @PostMapping("/addProduct")
+    public ResponseEntity<Product> addProduct(@RequestBody Product product){
+        Boolean isAdded = productService.addProduct(product);
+        if(isAdded) {
+            // 201 Created
+            return ResponseEntity.status(201).body(product);
+        }
+        else {
+            return ResponseEntity.status(409).body(product); // 409 Conflict
+        }
+
     }
 
 

@@ -15,8 +15,14 @@ public class ProductService {
     public ArrayList<Product> getProducts() {
         return products.getProducts();
     }
-    public void addProduct(Product product) {
-        products.addProduct(product);
+    public Boolean addProduct(Product product) {
+        if(products.getProduct(product.getSerialNumber()) == null) {
+            products.addProduct(product);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     public void removeProduct(Product product) {
         products.removeProduct(product);
