@@ -28,11 +28,21 @@ public class ProductService {
             return false;
         }
     }
-    public void removeProduct(Product product) {
-        products.removeProduct(product);
+    public Boolean removeProduct(Product product) {
+        if(products.getProduct(product.getSerialNumber()) != null) {
+            products.removeProduct(product);
+            return true;
+        }
+        return false;
+
     }
-    public void updateProduct(Product product) {
-        products.updateProduct(product);
+    public Boolean updateProduct(Product product) {
+        if(products.getProduct(product.getSerialNumber()) != null) {
+            products.updateProduct(product);
+            return true;
+        }
+        return false;
+
     }
     public Product getProduct(String serialNumber) {
         return products.getProduct(serialNumber);

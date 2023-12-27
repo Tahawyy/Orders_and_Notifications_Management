@@ -11,14 +11,14 @@ import java.util.ArrayList;
 @Service
 public class CategoryService {
     @Autowired
-    private Categories categoryRepository;
+    private Categories categories;
 
     public ArrayList<Category> getCategories() {
-        return categoryRepository.getCategories();
+        return categories.getCategories();
     }
     public Boolean addCategory(Category category) {
-        if(categoryRepository.getCategory(category.getName()) == null) {
-            categoryRepository.addCategory(category);
+        if(categories.getCategory(category.getName()) == null) {
+            categories.addCategory(category);
             return true;
         }
         else {
@@ -26,13 +26,18 @@ public class CategoryService {
         }
     }
     public Category getCategory(String name) {
-        return categoryRepository.getCategory(name);
+        return categories.getCategory(name);
     }
-    public void deleteCategory(String name) {
-        categoryRepository.deleteCategory(name);
+    public Boolean removeCategory(Category category) {
+        if(categories.getCategory(category.getName()) != null) {
+            categories.deleteCategory(category.getName());
+            return true;
+        }
+        return false;
+
     }
     public int getRemainingQuantity(String name) {
-        return categoryRepository.getCategory(name).getRemainingQuantity();
+        return categories.getCategory(name).getRemainingQuantity();
     }
 
 }

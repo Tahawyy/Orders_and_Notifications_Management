@@ -21,6 +21,9 @@ public class AccountService {
        }
        return false;
     }
+    public void deduceBalance(double amount , Account account) {
+        account.setBalance(account.getBalance() - amount);
+    }
     public boolean removeAccount(Account account)
     {
         if(accounts.getAccount(account.getEmail() , account.getPassword()) != null) {
