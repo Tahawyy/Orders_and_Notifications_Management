@@ -14,13 +14,13 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/getProducts")
+    @GetMapping("/products")
     public ResponseEntity<ArrayList<Product>> getAllProducts(){
         ArrayList<Product> products = productService.getProducts();
         return ResponseEntity.status(200).body(products); // 200 OK
     }
 
-    @GetMapping("/getProduct")
+    @GetMapping("/product/get")
     public ResponseEntity<Product> getProductById(@RequestParam String serialNumber){
         Product product = productService.getProduct(serialNumber);
         if(product != null) {
@@ -31,7 +31,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/addProduct")
+    @PostMapping("/product/add")
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
         Boolean isAdded = productService.addProduct(product);
         if(isAdded) {

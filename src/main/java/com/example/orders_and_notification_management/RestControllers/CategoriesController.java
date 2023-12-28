@@ -8,12 +8,14 @@ import com.example.orders_and_notification_management.Services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.orders_and_notification_management.Models.Category;
 
+import java.util.ArrayList;
+
 @RestController
 public class CategoriesController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping("/addCategory")
+    @PostMapping("/category/add")
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
        Boolean isAdded = categoryService.addCategory(category);
        if(isAdded) {
@@ -24,7 +26,7 @@ public class CategoriesController {
               return ResponseEntity.status(409).body(category); // 409 Conflict
          }
     }
-    @GetMapping("/getCategoryRemainingQuantity")
+    @GetMapping("/category/remainingQuantity")
     public ResponseEntity<Integer> getRemainingQuantity(@RequestParam String name) {
         int remainingQuantity = categoryService.getRemainingQuantity(name);
         if(remainingQuantity == -1){
@@ -33,6 +35,10 @@ public class CategoriesController {
         else {
             return ResponseEntity.status(200).body(remainingQuantity); // 200 OK
         }
+    }
+    @GetMapping("/categories")
+    public ResponseEntity<ArrayList<Category>> getCategories() {
+        return ResponseEntity.status(200).body(categoryService.getCategories()); // 200 OK
     }
 
 

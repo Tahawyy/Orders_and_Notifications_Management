@@ -18,10 +18,14 @@ public class ProductService {
     public Boolean addProduct(Product product) {
         if(products.getProduct(product.getSerialNumber()) == null) {
             products.addProduct(product);
-            if(categoryService.getCategory(product.getCategory().getName()) == null) {
+            if(categoryService.getCategory(product.getCategory( ).getName()) == null) {
                 categoryService.addCategory(product.getCategory());
             }
-            product.getCategory().setRemainingQuantity(product.getCategory().getRemainingQuantity() + 1);
+            else{
+                product.setCategory(categoryService.getCategory(product.getCategory().getName()));
+            }
+            // increment the remaining quantity of the category
+            product.getCategory().setRemainingQuantity(product.getCategory().getRemainingQuantity()+1);
             return true;
         }
         else {
