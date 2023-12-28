@@ -26,14 +26,14 @@ public class CategoriesController {
               return ResponseEntity.status(409).body(category); // 409 Conflict
          }
     }
-    @GetMapping("/category/remainingQuantity")
-    public ResponseEntity<Integer> getRemainingQuantity(@RequestParam String name) {
-        int remainingQuantity = categoryService.getRemainingQuantity(name);
-        if(remainingQuantity == -1){
-            return ResponseEntity.status(404).body(remainingQuantity); // 404 Not Found
+    @GetMapping("/category/get")
+    public ResponseEntity<Category> getRemainingQuantity(@RequestParam String name) {
+        Category category = categoryService.getCategory(name);
+        if(category != null) {
+            return ResponseEntity.status(200).body(category); // 200 OK
         }
         else {
-            return ResponseEntity.status(200).body(remainingQuantity); // 200 OK
+            return ResponseEntity.status(404).body(category); // 404 Not Found
         }
     }
     @GetMapping("/categories")
