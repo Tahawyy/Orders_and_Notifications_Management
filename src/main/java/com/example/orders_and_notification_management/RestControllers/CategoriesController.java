@@ -27,7 +27,7 @@ public class CategoriesController {
          }
     }
     @GetMapping("/category/get")
-    public ResponseEntity<Category> getRemainingQuantity(@RequestParam String name) {
+    public ResponseEntity<Category> getCategory(@RequestParam String name) {
         Category category = categoryService.getCategory(name);
         if(category != null) {
             return ResponseEntity.status(200).body(category); // 200 OK
