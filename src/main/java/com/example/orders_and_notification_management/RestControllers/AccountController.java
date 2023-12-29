@@ -22,7 +22,7 @@ public class AccountController {
            return ResponseEntity.status(201).body(account);
        }
          else {
-              return ResponseEntity.status(409).body(account); // 409 Conflict
+              return ResponseEntity.status(409).body(null); // 409 Conflict
          }
     }
 
