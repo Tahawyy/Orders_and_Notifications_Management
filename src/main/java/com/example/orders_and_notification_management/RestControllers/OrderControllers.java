@@ -24,14 +24,14 @@ public class OrderControllers {
     @PostMapping("/order/addSimpleOrder")
     public ResponseEntity<Order> placeOrder(@RequestBody SimpleOrder order) {
         if(!orderService.placeOrder(order)){
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(409).body(null);
         }
         return ResponseEntity.status(201).body(order);
     }
     @PostMapping("/order/addCompoundOrder")
     public ResponseEntity<Order> placeOrder(@RequestBody CompoundOrder order) {
         if(!orderService.placeOrder(order)){
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(409).body(null);
         }
         return ResponseEntity.status(201).body(order);
     }
