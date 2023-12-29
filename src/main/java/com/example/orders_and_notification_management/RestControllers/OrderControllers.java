@@ -24,14 +24,14 @@ public class OrderControllers {
     @PostMapping("/order/addSimpleOrder")
     public ResponseEntity<Order> placeOrder(@RequestBody SimpleOrder order) {
         if(!orderService.placeOrder(order)){
-            return ResponseEntity.status(409).body(null);
+            return ResponseEntity.status(404).body(null);
         }
         return ResponseEntity.status(201).body(order);
     }
     @PostMapping("/order/addCompoundOrder")
     public ResponseEntity<Order> placeOrder(@RequestBody CompoundOrder order) {
         if(!orderService.placeOrder(order)){
-            return ResponseEntity.status(409).body(null);
+            return ResponseEntity.status(404).body(null);
         }
         return ResponseEntity.status(201).body(order);
     }
@@ -44,7 +44,7 @@ public class OrderControllers {
         return ResponseEntity.status(201).body(order);
     }
     @GetMapping("/order/{serialNumber}/ship")
-    public ResponseEntity<Boolean> shipCompoundOrder(@PathVariable("serialNumber") String serialNumber) {
+    public ResponseEntity<Boolean> ship(@PathVariable("serialNumber") String serialNumber) {
         return ResponseEntity.status(201).body(orderService.shipOrder(serialNumber));
     }
 //    @GetMapping("/order/{serialNumber}/shipCompoundOrder")

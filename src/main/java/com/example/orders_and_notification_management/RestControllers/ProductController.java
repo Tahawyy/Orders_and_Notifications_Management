@@ -27,7 +27,7 @@ public class ProductController {
             return ResponseEntity.status(200).body(product); // 200 OK
         }
         else {
-            return ResponseEntity.status(404).body(product); // 404 Not Found
+            return ResponseEntity.status(404).body(null); // 404 Not Found
         }
     }
 
@@ -39,7 +39,7 @@ public class ProductController {
             return ResponseEntity.status(201).body(product);
         }
         else {
-            return ResponseEntity.status(409).body(product); // 409 Conflict
+            return ResponseEntity.status(409).body(null); // 409 Conflict
         }
 
     }

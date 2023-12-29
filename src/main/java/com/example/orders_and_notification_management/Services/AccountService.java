@@ -15,7 +15,7 @@ public class AccountService {
         return accounts.getAccounts();
     }
     public Boolean addAccount(Account account) {
-       if(accounts.getAccount(account.getEmail() , account.getPassword()) == null) {
+       if(accounts.getAccount(account.getEmail() ) == null) {
            accounts.addAccount(account);
            return true;
        }

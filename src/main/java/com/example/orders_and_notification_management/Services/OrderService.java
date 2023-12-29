@@ -25,7 +25,11 @@ public class OrderService {
     public SimpleOrder setOrder(SimpleOrder order){
         ArrayList<Product> products = new ArrayList<>();
         for (Product p : order.getProducts()) {
-            products.add(productService.getProduct(p.getSerialNumber()));
+            Product pr = productService.getProduct(p.getSerialNumber());
+            products.add(pr);
+            pr.getCategory().setRemainingQuantity(pr.getCategory().getRemainingQuantity()-1);
+            pr.setQuantity(pr.getQuantity()-1);
+
         }
         double total = 0;
         for (Product p : products) {

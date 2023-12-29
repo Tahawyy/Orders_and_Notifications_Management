@@ -27,7 +27,15 @@ public class Accounts {
     }
     public Account getAccount(String email , String password) {
         for (Account a : accounts) {
-            if (a.getEmail().equals(email) || a.getPassword().equals(password)) {
+            if (a.getEmail().equals(email) && a.getPassword().equals(password)) {
+                return a;
+            }
+        }
+        return null;
+    }
+    public Account getAccount(String email){
+        for (Account a : accounts) {
+            if (a.getEmail().equals(email)) {
                 return a;
             }
         }
