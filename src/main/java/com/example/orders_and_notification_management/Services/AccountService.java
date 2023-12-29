@@ -39,7 +39,7 @@ public class AccountService {
         }
         return false;
     }
-    public Account getaccount(String email , String password) {
+    public Account getAccount(String email , String password) {
         return accounts.getAccount(email , password);
     }
 }

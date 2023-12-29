@@ -28,7 +28,7 @@ public class AccountController {
 
     @GetMapping("/user/check")
     public ResponseEntity<Account> checkUser(@RequestParam String email , @RequestParam String password) {
-    	Account acc = accountService.getaccount(email , password);
+    	Account acc = accountService.getAccount(email , password);
         if(acc != null) {
         		return ResponseEntity.status(200).body(acc); // 200 OK
         	}

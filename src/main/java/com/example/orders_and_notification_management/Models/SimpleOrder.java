@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 @Component
 public class SimpleOrder extends Order{
-
     ArrayList<Product> products;
     Account account;
     @Override
@@ -21,4 +20,10 @@ public class SimpleOrder extends Order{
         this.products = products;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

@@ -8,18 +8,20 @@ import java.util.List;
 @Component
 public class CompoundOrder extends Order {
 
-    private List<Order> orders;
-
+    private List<SimpleOrder> orders;
+    public CompoundOrder() {
+        orders = new ArrayList<>();
+    }
     @Override
     public Order printOrder() {
         return this;
     }
 
-    public List<Order> getOrders() {
+    public List<SimpleOrder> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<SimpleOrder> orders) {
         this.orders = orders;
     }
 }
