@@ -1,14 +1,11 @@
 package com.example.orders_and_notification_management.Models;
 
-import org.springframework.stereotype.Component;
 
-@Component
 public abstract class Order {
     private String serialNumber;
     private Address address;
     private double shippingCost;
     OrderStatus status;
-
     public OrderStatus getStatus() {
         return status;
     }
@@ -36,4 +33,5 @@ public abstract class Order {
     public void setShippingCost(double shippingCost) {
         this.shippingCost = shippingCost;
     }
+    public abstract void shipped();
 }

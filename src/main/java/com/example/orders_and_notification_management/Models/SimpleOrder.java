@@ -1,10 +1,7 @@
 package com.example.orders_and_notification_management.Models;
 
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
-import java.util.List;
-@Component
+
 public class SimpleOrder extends Order{
     ArrayList<Product> products;
     Account account;
@@ -25,5 +22,9 @@ public class SimpleOrder extends Order{
     }
     public void setAccount(Account account) {
         this.account = account;
+    }
+    public void shipped() {
+        this.setStatus(OrderStatus.SHIPPED);
+        account.setBalance(account.getBalance() - this.getShippingCost());
     }
 }

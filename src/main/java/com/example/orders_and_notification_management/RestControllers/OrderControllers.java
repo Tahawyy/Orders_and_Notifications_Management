@@ -6,6 +6,7 @@ import com.example.orders_and_notification_management.Models.SimpleOrder;
 import com.example.orders_and_notification_management.Services.OrderService;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,25 +22,37 @@ public class OrderControllers {
     }
 
     @PostMapping("/order/addSimpleOrder")
-    public Order placeOrder(@RequestBody SimpleOrder order) {
+    public ResponseEntity<Order> placeOrder(@RequestBody SimpleOrder order) {
         if(!orderService.placeOrder(order)){
-            HttpStatus status = HttpStatus.CONFLICT;
-            return null;
+            return ResponseEntity.status(409).body(null);
         }
-        return order;
+        return ResponseEntity.status(201).body(order);
     }
     @PostMapping("/order/addCompoundOrder")
-    public Order placeOrder(@RequestBody CompoundOrder order) {
-        orderService.placeOrder(order);
-        return order;
+    public ResponseEntity<Order> placeOrder(@RequestBody CompoundOrder order) {
+        if(!orderService.placeOrder(order)){
+            return ResponseEntity.status(409).body(null);
+        }
+        return ResponseEntity.status(201).body(order);
     }
     @GetMapping("/order/{serialNumber}")
-    public Order getOrder(@PathVariable("serialNumber") String serialNumber) {
-        return  orderService.getOrder(serialNumber);
+    public ResponseEntity<Order> getOrder(@PathVariable("serialNumber") String serialNumber) {
+        Order order = orderService.getOrder(serialNumber);
+        if(order == null) {
+            return ResponseEntity.status(404).body(null);
+        }
+        return ResponseEntity.status(201).body(order);
     }
-
-    @GetMapping("/order/{serialNumber}/ship")
-    public Boolean ship(@PathVariable("serialNumber") String serialNumber) {
-        return orderService.shipOrder(serialNumber);
+    @GetMapping("/order/{serialNumber}/shipCompoundOrder")
+    public ResponseEntity<Boolean> shipCompoundOrder(@PathVariable("serialNumber") String serialNumber) {
+        return ResponseEntity.status(201).body(orderService.shipOrder(serialNumber));
     }
+//    @GetMapping("/order/{serialNumber}/shipCompoundOrder")
+//    public ResponseEntity<Boolean> shipCompoundOrder(@PathVariable("serialNumber") String serialNumber) {
+//        return ResponseEntity.status(201).body(orderService.shipCompoundOrder(serialNumber));
+//    }
+//    @GetMapping("/order/{serialNumber}/shipSimpleOrder")
+//    public ResponseEntity<Boolean> shipSimpleOrder(@PathVariable("serialNumber") String serialNumber) {
+//        return ResponseEntity.status(201).body(orderService.shipSimpleOrder(serialNumber));
+//    }
 }

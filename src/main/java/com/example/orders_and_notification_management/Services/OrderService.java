@@ -31,12 +31,14 @@ public class OrderService {
         for (Product p : products) {
             total += p.getPrice();
         }
+
         order.setProducts(products);
         order.setAccount(accountService.getAccount(order.getAccount().getEmail(), order.getAccount().getPassword()));
         if(total > order.getAccount().getBalance()) {
             return null;
         }
         accountService.deduceBalance(total, order.getAccount());
+        order.setStatus(OrderStatus.PLACED);
         return order;
     }
     public CompoundOrder setOrder(CompoundOrder order){
@@ -47,9 +49,10 @@ public class OrderService {
                 return null;
             }
             nwOrder.setShippingCost(order.getShippingCost() / order.getOrders().size());
-            orders.add(setOrder(o));
+            orders.add(nwOrder);
         }
         order.setOrders(orders);
+        order.setStatus(OrderStatus.PLACED);
         return order;
     }
     public Boolean placeOrder(SimpleOrder order) {
@@ -72,7 +75,7 @@ public class OrderService {
     public Boolean shipOrder(String SerialNumber) {
         Order order = orders.getOrder(SerialNumber);
         if(order != null) {
-            order.setStatus(OrderStatus.SHIPPED);
+            order.shipped();
             return true;
         }
         return false;
