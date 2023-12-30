@@ -2,6 +2,7 @@ package com.example.orders_and_notification_management.NotificationSystem;
 
 import com.example.orders_and_notification_management.Models.Account;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class Notification {
@@ -9,10 +10,14 @@ public abstract class Notification {
     private String subject;
     private String content;
     private NotificationChannel channel;
-    private HashMap<String, String> contentLanguageMap;
+    private HashMap<String, String> availableLanguages;
 
-    public Notification() {
-        this.contentLanguageMap = new HashMap<>();
+    private String selectedLanguage;
+
+    public Notification(Account receiver, NotificationChannel channel) {
+        this.availableLanguages = new HashMap<>();
+        this.receiver = receiver;
+        this.channel = channel;
     }
 
     public Account getReceiver() {
@@ -47,15 +52,33 @@ public abstract class Notification {
         this.channel = channel;
     }
 
-    public HashMap<String, String> getContentLanguageMap() {
-        return contentLanguageMap;
-    }
 
-    public void setContentLanguageMap(HashMap<String, String> contentLanguageMap) {
-        this.contentLanguageMap = contentLanguageMap;
+    public void setContentLanguageMap(HashMap<String, String> availableLanguages) {
+        this.availableLanguages = Notification.this.availableLanguages;
     }
 
     public void sendNotification() {
         this.channel.sendNotification(this);
     }
+    public void addLanguage(String language, String content) {
+        this.availableLanguages.put(language, content);
+    }
+    public void selectLanguage(String language) {
+        if(!this.availableLanguages.containsKey(language)) throw new IllegalArgumentException("Language not available");
+
+        this.selectedLanguage = language;
+        this.setContent(this.availableLanguages.get(language));
+    }
+    public String getSelectedLanguage() {
+        return this.selectedLanguage;
+    }
+    public ArrayList<String> getAvailableLanguages() {
+        ArrayList<String> languages = new ArrayList<>();
+        for(String language : this.availableLanguages.keySet()) {
+            languages.add(language);
+        }
+        return languages;
+    }
+
+    public abstract void assignPlaceholders();
 }
