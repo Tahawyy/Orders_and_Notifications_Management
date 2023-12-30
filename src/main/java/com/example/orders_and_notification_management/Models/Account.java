@@ -1,6 +1,7 @@
 package com.example.orders_and_notification_management.Models;
 
 public class Account {
+    private String name; // The name of the account holder
     private String email;  // The email of the account
     private String password; // The password of the account
     private double balance; // The balance of the account
@@ -18,6 +19,9 @@ public class Account {
     public double getBalance() {
         return balance;
     }
+    public String getName() {
+        return name;
+    }
     public void setEmail(String email) {
         this.email = email;
     }
@@ -26,5 +30,8 @@ public class Account {
     }
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }

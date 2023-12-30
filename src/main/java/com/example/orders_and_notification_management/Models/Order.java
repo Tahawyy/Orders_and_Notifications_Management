@@ -1,6 +1,8 @@
 package com.example.orders_and_notification_management.Models;
 
 
+import com.example.orders_and_notification_management.Services.NotificationService;
+
 public abstract class Order {
     private String serialNumber;
     private Address address;
@@ -33,5 +35,5 @@ public abstract class Order {
     public void setShippingCost(double shippingCost) {
         this.shippingCost = shippingCost;
     }
-    public abstract void shipped();
+    public abstract void shipped(NotificationService notificationService);
 }

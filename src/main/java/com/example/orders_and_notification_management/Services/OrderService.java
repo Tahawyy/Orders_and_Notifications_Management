@@ -18,6 +18,8 @@ public class OrderService {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private NotificationService notificationService;
 
     public ArrayList<Order> getOrders() {
         return orders.getOrders();
@@ -63,6 +65,7 @@ public class OrderService {
         order = setOrder(order);
         if(orders.getOrder(order.getSerialNumber()) == null) {
             orders.addOrder(order);
+            notificationService.sendPlacementNotification(order.getAccount(), order);
             return true;
         }
         return false;
@@ -79,7 +82,7 @@ public class OrderService {
     public Boolean shipOrder(String SerialNumber) {
         Order order = orders.getOrder(SerialNumber);
         if(order != null) {
-            order.shipped();
+            order.shipped(notificationService);
             return true;
         }
         return false;
