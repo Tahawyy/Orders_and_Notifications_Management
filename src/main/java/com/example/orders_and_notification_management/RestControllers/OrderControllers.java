@@ -43,6 +43,14 @@ public class OrderControllers {
         }
         return ResponseEntity.status(201).body(order);
     }
+    @GetMapping("/order/{serialNumber}/cancelPlacement")
+    public ResponseEntity<Boolean> cancelPlacement(@PathVariable("serialNumber") String serialNumber) {
+        return ResponseEntity.status(201).body(orderService.cancelPlacement(serialNumber));
+    }
+    @GetMapping("/order/{serialNumber}/cancelShipping")
+    public ResponseEntity<Boolean> cancelShipping(@PathVariable("serialNumber") String serialNumber) {
+        return ResponseEntity.status(201).body(orderService.cancelShipping(serialNumber));
+    }
     @GetMapping("/order/{serialNumber}/ship")
     public ResponseEntity<Boolean> ship(@PathVariable("serialNumber") String serialNumber) {
         return ResponseEntity.status(201).body(orderService.shipOrder(serialNumber));

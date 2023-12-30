@@ -3,9 +3,12 @@ package com.example.orders_and_notification_management.Services;
 
 import com.example.orders_and_notification_management.Models.*;
 import com.example.orders_and_notification_management.Repositories.Orders;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
@@ -18,6 +21,8 @@ public class OrderService {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private NotificationService notificationService;
 
     public ArrayList<Order> getOrders() {
         return orders.getOrders();
@@ -43,6 +48,7 @@ public class OrderService {
         }
         accountService.deduceBalance(total, order.getAccount());
         order.setStatus(OrderStatus.PLACED);
+        order.setPlacementCancelDeadline(LocalDateTime.now().plusMinutes(1));
         return order;
     }
     public CompoundOrder setOrder(CompoundOrder order){
@@ -57,12 +63,14 @@ public class OrderService {
         }
         order.setOrders(orders);
         order.setStatus(OrderStatus.PLACED);
+        order.setPlacementCancelDeadline(LocalDateTime.now().plusMinutes(1));
         return order;
     }
     public Boolean placeOrder(SimpleOrder order) {
         order = setOrder(order);
         if(orders.getOrder(order.getSerialNumber()) == null) {
             orders.addOrder(order);
+            notificationService.sendPlacementNotification(order.getAccount(), order);
             return true;
         }
         return false;
@@ -78,8 +86,24 @@ public class OrderService {
 
     public Boolean shipOrder(String SerialNumber) {
         Order order = orders.getOrder(SerialNumber);
-        if(order != null) {
-            order.shipped();
+        if(order != null && order.getStatus() == OrderStatus.PLACED) {
+            order.shipped(notificationService);
+            return true;
+        }
+        return false;
+    }
+    public Boolean cancelPlacement(String SerialNumber) {
+        Order order = orders.getOrder(SerialNumber);
+        if(order != null && order.getPlacementCancelDeadline().isAfter(LocalDateTime.now())) {
+            order.setStatus(OrderStatus.CANCELLED);
+            return true;
+        }
+        return false;
+    }
+    public Boolean cancelShipping(String SerialNumber) {
+        Order order = orders.getOrder(SerialNumber);
+        if(order != null && order.getStatus() == OrderStatus.SHIPPED && order.getShippingCancelDeadline().isAfter(LocalDateTime.now())) {
+            order.setStatus(OrderStatus.PLACED);
             return true;
         }
         return false;
