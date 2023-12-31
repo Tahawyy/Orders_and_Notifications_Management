@@ -17,10 +17,10 @@ public class AccountController {
     @PostMapping("/user/signup")
     public ResponseEntity<Account> addAccount(@RequestBody Account account) {
        Boolean isAdded = accountService.addAccount(account);
-       if(isAdded) {
+        if(isAdded) {
            // 201 Created
            return ResponseEntity.status(201).body(account);
-       }
+        }
          else {
               return ResponseEntity.status(409).body(null); // 409 Conflict
          }
@@ -29,7 +29,7 @@ public class AccountController {
     @GetMapping("/user/check")
     public ResponseEntity<Account> checkUser(@RequestParam String email , @RequestParam String password) {
     	Account acc = accountService.getAccount(email , password);
-        if(acc != null) {
+            if(acc != null) {
         		return ResponseEntity.status(200).body(acc); // 200 OK
         	}
         	else {

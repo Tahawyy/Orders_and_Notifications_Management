@@ -96,6 +96,7 @@ public class OrderService {
         Order order = orders.getOrder(SerialNumber);
         if(order != null && order.getPlacementCancelDeadline().isAfter(LocalDateTime.now())) {
             order.setStatus(OrderStatus.CANCELLED);
+            // TODO : return money to account
             return true;
         }
         return false;
@@ -104,6 +105,7 @@ public class OrderService {
         Order order = orders.getOrder(SerialNumber);
         if(order != null && order.getStatus() == OrderStatus.SHIPPED && order.getShippingCancelDeadline().isAfter(LocalDateTime.now())) {
             order.setStatus(OrderStatus.PLACED);
+            // TODO : return money to account
             return true;
         }
         return false;

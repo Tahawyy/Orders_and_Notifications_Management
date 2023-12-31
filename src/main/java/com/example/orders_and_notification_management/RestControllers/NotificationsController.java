@@ -20,7 +20,7 @@ public class NotificationsController {
     private NotificationService notificationService;
 
     @GetMapping("/notifications")
-    public ResponseEntity<ArrayList<Map<String, Object>>> getCategories() {
+    public ResponseEntity<ArrayList<Map<String, Object>>> getNotifications() {
         ArrayList<Map<String, Object>> notifications = new ArrayList<>();
         ArrayList<Notification> notificationsList = notificationService.getNotifications();
         for(Notification notification : notificationsList) {

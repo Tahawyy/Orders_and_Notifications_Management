@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import com.example.orders_and_notification_management.Factories.*;
 
 import java.util.*;
 
@@ -47,7 +48,6 @@ public class NotificationService {
             channel = new SMS(account.getPhoneNumber());
         else
             channel = new EMail(account.getEmail());
-
         PlacementNotification notification = new PlacementNotification(account, channel, order);
         notification.selectLanguage(account.getPrefferedLanguage());
         notification.assignPlaceholders();
