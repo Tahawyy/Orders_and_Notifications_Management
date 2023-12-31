@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 @Component
 public class SimpleOrderManager extends OrderManager {
-    public SimpleOrderManager(Orders orders, ProductService productService, AccountService accountService, NotificationService notificationService) {
-        super(orders, productService, accountService, notificationService);
+    public SimpleOrderManager(OrderService orderService, AccountService accountService, NotificationService notificationService) {
+        super(orderService, accountService, notificationService);
     }
 
     @Override
     public Boolean shipOrder(String SerialNumber) {
-        SimpleOrder order =(SimpleOrder) orders.getOrder(SerialNumber);
+        SimpleOrder order =(SimpleOrder) orderService.getOrder(SerialNumber);
         if(order != null && order.getStatus() == OrderStatus.PLACED) {
             order.setStatus(OrderStatus.SHIPPED);
             order.getAccount().setBalance(order.getAccount().getBalance() - order.getShippingCost());
@@ -31,7 +31,7 @@ public class SimpleOrderManager extends OrderManager {
 
     @Override
     public Boolean cancelPlacement(String SerialNumber) {
-        SimpleOrder order =(SimpleOrder) orders.getOrder(SerialNumber);
+        SimpleOrder order =(SimpleOrder) orderService.getOrder(SerialNumber);
         if(order != null && order.getPlacementCancelDeadline().isAfter(LocalDateTime.now())) {
             order.setStatus(OrderStatus.CANCELLED);
             order.getAccount().setBalance(order.getAccount().getBalance() + order.getTotalPrice());
@@ -41,7 +41,7 @@ public class SimpleOrderManager extends OrderManager {
     }
 
     public Boolean cancelShipping(String SerialNumber) {
-        SimpleOrder order =(SimpleOrder)  orders.getOrder(SerialNumber);
+        SimpleOrder order =(SimpleOrder)  orderService.getOrder(SerialNumber);
         if(order != null && order.getStatus() == OrderStatus.SHIPPED && order.getShippingCancelDeadline().isAfter(LocalDateTime.now())) {
             order.setStatus(OrderStatus.PLACED);
             order.getAccount().setBalance( order.getAccount().getBalance() + order.getShippingCost());
