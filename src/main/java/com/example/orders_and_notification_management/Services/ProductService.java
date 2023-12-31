@@ -1,9 +1,9 @@
 package com.example.orders_and_notification_management.Services;
 
 import com.example.orders_and_notification_management.Models.Product;
+import com.example.orders_and_notification_management.Repositories.Products;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.orders_and_notification_management.Repositories.Products;
 
 import java.util.ArrayList;
 

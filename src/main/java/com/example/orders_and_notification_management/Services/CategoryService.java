@@ -2,9 +2,9 @@ package com.example.orders_and_notification_management.Services;
 
 
 import com.example.orders_and_notification_management.Models.Category;
+import com.example.orders_and_notification_management.Repositories.Categories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.orders_and_notification_management.Repositories.Categories;
 
 import java.util.ArrayList;
 

@@ -17,19 +17,19 @@ public class AccountController {
     @PostMapping("/user/signup")
     public ResponseEntity<Account> addAccount(@RequestBody Account account) {
        Boolean isAdded = accountService.addAccount(account);
-       if(isAdded) {
+        if(isAdded) {
            // 201 Created
            return ResponseEntity.status(201).body(account);
-       }
+        }
          else {
               return ResponseEntity.status(409).body(null); // 409 Conflict
          }
     }
 
-    @GetMapping("/user/check")
-    public ResponseEntity<Account> checkUser(@RequestParam String email , @RequestParam String password) {
-    	Account acc = accountService.getAccount(email , password);
-        if(acc != null) {
+    @PostMapping("/user/check")
+    public ResponseEntity<Account> checkUser(@RequestBody Account account ) {
+    	Account acc = accountService.getAccount(account.getEmail() , account.getPassword());
+            if(acc != null) {
         		return ResponseEntity.status(200).body(acc); // 200 OK
         	}
         	else {

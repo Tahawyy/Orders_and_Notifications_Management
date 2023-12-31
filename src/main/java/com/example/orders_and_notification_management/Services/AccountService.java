@@ -1,8 +1,8 @@
 package com.example.orders_and_notification_management.Services;
 
+import com.example.orders_and_notification_management.Repositories.Accounts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.orders_and_notification_management.Repositories.Accounts;
 import com.example.orders_and_notification_management.Models.Account;
 
 import java.util.ArrayList;
@@ -41,5 +41,8 @@ public class AccountService {
     }
     public Account getAccount(String email , String password) {
         return accounts.getAccount(email , password);
+    }
+    public Account getAccount(String email) {
+        return accounts.getAccount(email);
     }
 }

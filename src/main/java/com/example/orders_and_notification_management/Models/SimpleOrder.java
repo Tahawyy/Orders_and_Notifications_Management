@@ -13,9 +13,7 @@ import java.util.Date;
 public class SimpleOrder extends Order{
     ArrayList<Product> products;
     Account account;
-
     double price;
-
     @Override
     public Order printOrder() {
         return this;
@@ -38,11 +36,5 @@ public class SimpleOrder extends Order{
     }
     public void setAccount(Account account) {
         this.account = account;
-    }
-    public void shipped(NotificationService notificationService) {
-        this.setStatus(OrderStatus.SHIPPED);
-        account.setBalance(account.getBalance() - this.getShippingCost());
-        notificationService.sendShipmentNotification(account, this);
-        super.setShippingCancelDeadline(LocalDateTime.now().plusMinutes(5));
     }
 }

@@ -21,46 +21,49 @@ public class OrderControllers {
         this.orderService = orderService;
     }
 
-    @PostMapping("/order/addSimpleOrder")
-    public ResponseEntity<Order> placeOrder(@RequestBody SimpleOrder order) {
+    @PostMapping("/order/addOrder")
+    public ResponseEntity<Order> placeOrder(@RequestBody Order order) {
         if(!orderService.placeOrder(order)){
             return ResponseEntity.status(409).body(null);
         }
         return ResponseEntity.status(201).body(order);
     }
-    @PostMapping("/order/addCompoundOrder")
-    public ResponseEntity<Order> placeOrder(@RequestBody CompoundOrder order) {
-        if(!orderService.placeOrder(order)){
-            return ResponseEntity.status(409).body(null);
-        }
-        return ResponseEntity.status(201).body(order);
-    }
-    @GetMapping("/order/{serialNumber}")
-    public ResponseEntity<Order> getOrder(@PathVariable("serialNumber") String serialNumber) {
+    @GetMapping("/order/get")
+    public ResponseEntity<Order> getOrder(@RequestParam String serialNumber) {
         Order order = orderService.getOrder(serialNumber);
         if(order == null) {
             return ResponseEntity.status(404).body(null);
         }
         return ResponseEntity.status(201).body(order);
     }
-    @GetMapping("/order/{serialNumber}/cancelPlacement")
-    public ResponseEntity<Boolean> cancelPlacement(@PathVariable("serialNumber") String serialNumber) {
-        return ResponseEntity.status(201).body(orderService.cancelPlacement(serialNumber));
+
+    @GetMapping("/order/cancelPlacement")
+    public ResponseEntity<Boolean> cancelPlacement(@RequestParam String serialNumber) {
+        boolean result = orderService.cancelPlacement(serialNumber);
+        if(!result){
+            return ResponseEntity.status(409).body(false);
+        }
+        return ResponseEntity.status(200).body(result);
     }
-    @GetMapping("/order/{serialNumber}/cancelShipping")
-    public ResponseEntity<Boolean> cancelShipping(@PathVariable("serialNumber") String serialNumber) {
-        return ResponseEntity.status(201).body(orderService.cancelShipping(serialNumber));
+    @GetMapping("/order/cancelShipping")
+    public ResponseEntity<Boolean> cancelShipping(@RequestParam String serialNumber) {
+        boolean result = orderService.cancelShipping(serialNumber);
+        if(!result){
+            return ResponseEntity.status(409).body(false);
+        }
+        return ResponseEntity.status(200).body(result);
     }
-    @GetMapping("/order/{serialNumber}/ship")
-    public ResponseEntity<Boolean> ship(@PathVariable("serialNumber") String serialNumber) {
-        return ResponseEntity.status(201).body(orderService.shipOrder(serialNumber));
+    @GetMapping("/order/ship")
+    public ResponseEntity<Boolean> ship(@RequestParam String serialNumber) {
+        boolean result = orderService.shipOrder(serialNumber);
+        if(!result){
+            return ResponseEntity.status(409).body(false);
+        }
+        return ResponseEntity.status(200).body(result);
     }
-//    @GetMapping("/order/{serialNumber}/shipCompoundOrder")
-//    public ResponseEntity<Boolean> shipCompoundOrder(@PathVariable("serialNumber") String serialNumber) {
-//        return ResponseEntity.status(201).body(orderService.shipCompoundOrder(serialNumber));
-//    }
-//    @GetMapping("/order/{serialNumber}/shipSimpleOrder")
-//    public ResponseEntity<Boolean> shipSimpleOrder(@PathVariable("serialNumber") String serialNumber) {
-//        return ResponseEntity.status(201).body(orderService.shipSimpleOrder(serialNumber));
-//    }
+    @GetMapping("/order/getAll")
+    public ResponseEntity<ArrayList<Order>> getAllOrders() {
+        ArrayList<Order> orders = orderService.getOrders();
+        return ResponseEntity.status(200).body(orders);
+    }
 }
