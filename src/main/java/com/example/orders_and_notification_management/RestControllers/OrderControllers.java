@@ -61,4 +61,9 @@ public class OrderControllers {
         }
         return ResponseEntity.status(200).body(result);
     }
+    @GetMapping("/order/getAll")
+    public ResponseEntity<ArrayList<Order>> getAllOrders() {
+        ArrayList<Order> orders = orderService.getOrders();
+        return ResponseEntity.status(200).body(orders);
+    }
 }
