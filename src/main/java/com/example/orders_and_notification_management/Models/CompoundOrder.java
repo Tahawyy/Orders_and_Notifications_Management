@@ -32,4 +32,16 @@ public class CompoundOrder extends Order {
             o.shipped(notificationService);
         }
     }
+    public void cancelPlacement() {
+        this.setStatus(OrderStatus.CANCELLED);
+        for (SimpleOrder o : orders) {
+            o.cancelPlacement();
+        }
+    }
+    public void cancelShipping() {
+        this.setStatus(OrderStatus.PLACED);
+        for (SimpleOrder o : orders) {
+            o.cancelShipping();
+        }
+    }
 }

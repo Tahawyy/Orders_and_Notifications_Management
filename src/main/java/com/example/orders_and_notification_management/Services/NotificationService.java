@@ -41,13 +41,8 @@ public class NotificationService {
         }
     }
     public void sendPlacementNotification(Account account, SimpleOrder order) {
-        NotificationChannel channel;
-        if(account.getPrefferedChannel().equals("Email"))
-            channel = new EMail(account.getEmail());
-        else if(account.getPrefferedChannel().equals("SMS"))
-            channel = new SMS(account.getPhoneNumber());
-        else
-            channel = new EMail(account.getEmail());
+        IChannelFactory channelFactory = new ChannelFactory();
+        NotificationChannel channel = channelFactory.createChannel(account);
         PlacementNotification notification = new PlacementNotification(account, channel, order);
         notification.selectLanguage(account.getPrefferedLanguage());
         notification.assignPlaceholders();

@@ -23,26 +23,23 @@ public class OrderControllers {
 
     @PostMapping("/order/addSimpleOrder")
     public ResponseEntity<Order> placeOrder(@RequestBody SimpleOrder order) {
+
+        if(!orderService.placeOrder(order)){
+            return ResponseEntity.status(409).body(null);
+        }
+
+        return ResponseEntity.status(201).body(order);
+    }
+
+    @PostMapping("/order/addOrder")
+    public ResponseEntity<Order> placeOrder(@RequestBody Order order) {
+
         if(!orderService.placeOrder(order)){
             return ResponseEntity.status(409).body(null);
         }
         return ResponseEntity.status(201).body(order);
     }
-    @PostMapping("/order/addCompoundOrder")
-    public ResponseEntity<Order> placeOrder(@RequestBody CompoundOrder order) {
-        if(!orderService.placeOrder(order)){
-            return ResponseEntity.status(409).body(null);
-        }
-        return ResponseEntity.status(201).body(order);
-    }
-    @GetMapping("/order/{serialNumber}")
-    public ResponseEntity<Order> getOrder(@PathVariable("serialNumber") String serialNumber) {
-        Order order = orderService.getOrder(serialNumber);
-        if(order == null) {
-            return ResponseEntity.status(404).body(null);
-        }
-        return ResponseEntity.status(201).body(order);
-    }
+
     @GetMapping("/order/{serialNumber}/cancelPlacement")
     public ResponseEntity<Boolean> cancelPlacement(@PathVariable("serialNumber") String serialNumber) {
         return ResponseEntity.status(201).body(orderService.cancelPlacement(serialNumber));
