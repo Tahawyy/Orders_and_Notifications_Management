@@ -10,17 +10,21 @@ import java.util.ArrayList;
 
 @Repository
 
-public class Products {
+public class Products implements ProductsRepositry{
     private ArrayList<Product> products = new ArrayList<>();
+    @Override
     public ArrayList<Product> getProducts() {
         return products;
     }
+    @Override
     public void addProduct(Product product) {
         products.add(product);
     }
+    @Override
     public void removeProduct(Product product) {
         products.remove(product);
     }
+    @Override
     public Product getProduct(String serialNumber) {
         for (Product p : products) {
             if (p.getSerialNumber().equals(serialNumber)) {
@@ -29,6 +33,7 @@ public class Products {
         }
         return null;
     }
+    @Override
     public void updateProduct(Product product) {
         for (Product p : products) {
            if(product.getSerialNumber().equals(p.getSerialNumber())) {

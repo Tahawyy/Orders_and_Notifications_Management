@@ -5,25 +5,26 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 @Repository
-public class Orders {
+public class Orders implements OrdersRepositry{
     private ArrayList<Order> orders;
 
     public Orders() {
         orders = new ArrayList<>();
     }
-
+    @Override
     public ArrayList<Order> getOrders() {
         return orders;
     }
-
+    @Override
     public void addOrder(Order order) {
 
         orders.add(order);
     }
-
+    @Override
     public void removeOrder(Order order) {
         orders.remove(order);
     }
+    @Override
     public void updateOrder(Order order) {
         for (Order o : orders) {
             if (o.equals(order)) {
@@ -31,6 +32,7 @@ public class Orders {
             }
         }
     }
+    @Override
     public Order getOrder(String serialNumber) {
         for (Order o : orders) {
             if (o.getSerialNumber().equals(serialNumber)) {

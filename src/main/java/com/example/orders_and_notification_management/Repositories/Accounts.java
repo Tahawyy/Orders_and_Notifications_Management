@@ -6,17 +6,21 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class Accounts {
-    private ArrayList<Account> accounts = new ArrayList<>();
+public class Accounts implements AccountsRepositry {
+    private ArrayList<Account> accounts;
+    @Override
     public ArrayList<Account> getAccounts() {
         return accounts;
     }
+    @Override
     public void addAccount(Account account) {
         accounts.add(account);
     }
+    @Override
     public void removeAccount(Account account) {
         accounts.remove(account);
     }
+    @Override
     public void updateAccount(Account account) {
         for (Account a : accounts) {
             if (a.getEmail().equals(account.getEmail())) {
@@ -25,6 +29,7 @@ public class Accounts {
             }
         }
     }
+    @Override
     public Account getAccount(String email , String password) {
         for (Account a : accounts) {
             if (a.getEmail().equals(email) && a.getPassword().equals(password)) {
@@ -33,6 +38,7 @@ public class Accounts {
         }
         return null;
     }
+    @Override
     public Account getAccount(String email){
         for (Account a : accounts) {
             if (a.getEmail().equals(email)) {
