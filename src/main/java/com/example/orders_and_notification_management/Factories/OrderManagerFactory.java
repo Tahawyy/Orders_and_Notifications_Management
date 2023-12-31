@@ -14,23 +14,21 @@ import com.example.orders_and_notification_management.Services.ProductService;
 
 
 public class OrderManagerFactory implements IOrderManagerFactory {
-    protected Orders orders;
-    protected ProductService productService;
+    protected OrderService orderService;
     protected AccountService accountService;
     protected NotificationService notificationService;
-    public OrderManagerFactory(Orders orders, ProductService productService, AccountService accountService, NotificationService notificationService) {
-        this.orders = orders;
-        this.productService = productService;
+    public OrderManagerFactory(OrderService orderService, AccountService accountService, NotificationService notificationService) {
+        this.orderService = orderService;
         this.accountService = accountService;
         this.notificationService = notificationService;
     }
-    public OrderManager createOrderService(String serialNumber) {
-        Order order = OrderService.getOrder(serialNumber);
+    public OrderManager createOrderManager(String serialNumber) {
+        Order order = orderService.getOrder(serialNumber);
         if(order instanceof SimpleOrder){
-            return new SimpleOrderManager(orders, productService, accountService, notificationService);
+            return new SimpleOrderManager(orderService, accountService, notificationService);
         }
         else if(order instanceof CompoundOrder){
-            return new CompoundOrderManager(orders, productService, accountService, notificationService);
+            return new CompoundOrderManager(orderService,  accountService, notificationService);
         }
         return null;
     }
