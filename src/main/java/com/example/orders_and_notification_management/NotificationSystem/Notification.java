@@ -14,10 +14,11 @@ public abstract class Notification {
 
     private String selectedLanguage;
 
-    public Notification(Account receiver, NotificationChannel channel) {
+    public Notification(Account receiver, NotificationChannel channel, String subject) {
         this.availableLanguages = new HashMap<>();
         this.receiver = receiver;
         this.channel = channel;
+        this.subject = subject;
     }
 
     public Account getReceiver() {
