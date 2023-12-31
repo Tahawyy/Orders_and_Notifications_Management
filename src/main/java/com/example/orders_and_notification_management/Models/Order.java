@@ -62,8 +62,6 @@ public abstract class Order {
     public void setShippingCost(double shippingCost) {
         this.shippingCost = shippingCost;
     }
-    public abstract void shipped(NotificationService notificationService);
-    public abstract void cancelPlacement();
-    public abstract void cancelShipping();
+
 
 }

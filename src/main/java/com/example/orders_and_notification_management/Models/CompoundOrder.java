@@ -25,23 +25,4 @@ public class CompoundOrder extends Order {
         this.orders = orders;
     }
 
-    public void shipped(NotificationService notificationService) {
-        this.setStatus(OrderStatus.SHIPPED);
-        super.setShippingCancelDeadline(LocalDateTime.now().plusMinutes(5));
-        for (SimpleOrder o : orders) {
-            o.shipped(notificationService);
-        }
-    }
-    public void cancelPlacement() {
-        this.setStatus(OrderStatus.CANCELLED);
-        for (SimpleOrder o : orders) {
-            o.cancelPlacement();
-        }
-    }
-    public void cancelShipping() {
-        this.setStatus(OrderStatus.PLACED);
-        for (SimpleOrder o : orders) {
-            o.cancelShipping();
-        }
-    }
 }

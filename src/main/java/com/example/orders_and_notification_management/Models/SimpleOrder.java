@@ -37,18 +37,4 @@ public class SimpleOrder extends Order{
     public void setAccount(Account account) {
         this.account = account;
     }
-    public void shipped(NotificationService notificationService) {
-        this.setStatus(OrderStatus.SHIPPED);
-        account.setBalance(account.getBalance() - this.getShippingCost());
-        notificationService.sendShipmentNotification(account, this);
-        super.setShippingCancelDeadline(LocalDateTime.now().plusMinutes(5));
-    }
-    public void cancelPlacement() {
-        this.setStatus(OrderStatus.CANCELLED);
-        account.setBalance(account.getBalance() + this.getTotalPrice());
-    }
-    public void cancelShipping() {
-        this.setStatus(OrderStatus.PLACED);
-        account.setBalance(account.getBalance() + this.getShippingCost());
-    }
 }

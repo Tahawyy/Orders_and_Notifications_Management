@@ -2,7 +2,10 @@ package com.example.orders_and_notification_management.Services;
 
 
 import com.example.orders_and_notification_management.Factories.IOrderFactory;
+import com.example.orders_and_notification_management.Factories.IOrderManagerFactory;
 import com.example.orders_and_notification_management.Factories.OrderFactory;
+import com.example.orders_and_notification_management.Factories.OrderManagerFactory;
+import com.example.orders_and_notification_management.Manager.OrderManager;
 import com.example.orders_and_notification_management.Models.*;
 import com.example.orders_and_notification_management.Repositories.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +15,21 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
-public class OrderService {
+public  class OrderService {
     @Autowired
-    private Orders orders;
+    protected static Orders orders;
 
     @Autowired
-    private ProductService productService;
+    protected ProductService productService;
 
     @Autowired
-    private AccountService accountService;
+    protected AccountService accountService;
     @Autowired
-    private NotificationService notificationService;
+    protected NotificationService notificationService;
 
+    public OrderService(Orders orders) {
+        this.orders = orders;
+    }
     public ArrayList<Order> getOrders() {
         return orders.getOrders();
     }
@@ -31,42 +37,29 @@ public class OrderService {
     public Boolean placeOrder(Order order) {
         IOrderFactory orderFactory = new OrderFactory(productService, accountService, notificationService);
         if(orders.getOrder(order.getSerialNumber()) == null) {
-            order = orderFactory.createOrder(order);
+            order = orderFactory.createOrder(order ,orders.getOrders().size()+1+"" );
             orders.addOrder(order);
             return true;
         }
         return false;
     }
-
-    public Boolean shipOrder(String SerialNumber) {
-        Order order = orders.getOrder(SerialNumber);
-        if(order != null && order.getStatus() == OrderStatus.PLACED) {
-            order.shipped(notificationService);
-            return true;
-        }
-        return false;
-    }
-    public Boolean cancelPlacement(String SerialNumber) {
-        Order order = orders.getOrder(SerialNumber);
-        if(order != null && order.getPlacementCancelDeadline().isAfter(LocalDateTime.now())) {
-            order.setStatus(OrderStatus.CANCELLED);
-            // TODO : return money to account
-            order.cancelPlacement();
-            return true;
-        }
-        return false;
-    }
-    public Boolean cancelShipping(String SerialNumber) {
-        Order order = orders.getOrder(SerialNumber);
-        if(order != null && order.getStatus() == OrderStatus.SHIPPED && order.getShippingCancelDeadline().isAfter(LocalDateTime.now())) {
-            order.setStatus(OrderStatus.PLACED);
-            // TODO : return money to account
-            order.cancelShipping();
-            return true;
-        }
-        return false;
-    }
-    public Order getOrder(String serialNumber) {
+    public static  Order getOrder(String serialNumber) {
         return orders.getOrder(serialNumber);
     }
+    public Boolean shipOrder(String SerialNumber){
+        IOrderManagerFactory orderManagerFactory = new OrderManagerFactory(orders, productService, accountService, notificationService);
+        OrderManager orderManager = orderManagerFactory.createOrderService(SerialNumber);
+        return orderManager.shipOrder(SerialNumber);
+    }
+    public Boolean cancelPlacement(String SerialNumber) {
+        IOrderManagerFactory orderManagerFactory = new OrderManagerFactory(orders, productService, accountService, notificationService);
+        OrderManager orderManager = orderManagerFactory.createOrderService(SerialNumber);
+        return orderManager.cancelPlacement(SerialNumber);
+    }
+    public  Boolean cancelShipping(String SerialNumber){
+        IOrderManagerFactory orderManagerFactory = new OrderManagerFactory(orders, productService, accountService, notificationService);
+        OrderManager orderManager = orderManagerFactory.createOrderService(SerialNumber);
+        return orderManager.cancelShipping(SerialNumber);
+    }
+
 }

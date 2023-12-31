@@ -19,7 +19,8 @@ public class OrderFactory implements IOrderFactory{
         this.accountService = accountService;
         this.notificationService = notificationService;
     }
-    public Order createOrder(Order order){
+    public Order createOrder(Order order , String serialNumber){
+        order.setSerialNumber(serialNumber);
         if(order instanceof SimpleOrder)
             return setOrder((SimpleOrder)order);
         else if(order instanceof CompoundOrder)
@@ -44,7 +45,6 @@ public class OrderFactory implements IOrderFactory{
         if(total > order.getAccount().getBalance()) {
             return null;
         }
-
         accountService.deduceBalance(total, order.getAccount());
         order.setStatus(OrderStatus.PLACED);
         order.setPlacementCancelDeadline(LocalDateTime.now().plusMinutes(1));
@@ -58,6 +58,7 @@ public class OrderFactory implements IOrderFactory{
             if(nwOrder == null) {
                 return null;
             }
+            nwOrder.setSerialNumber(order.getSerialNumber() + "-" + (orders.size()+1));
             nwOrder.setShippingCost(order.getShippingCost() / order.getOrders().size());
             orders.add(nwOrder);
         }

@@ -39,23 +39,26 @@ public class OrderControllers {
 
     @GetMapping("/order/cancelPlacement")
     public ResponseEntity<Boolean> cancelPlacement(@RequestParam String serialNumber) {
-        if(!orderService.cancelShipping(serialNumber)){
+        boolean result = orderService.cancelPlacement(serialNumber);
+        if(!result){
             return ResponseEntity.status(409).body(false);
         }
-        return ResponseEntity.status(200).body(orderService.cancelPlacement(serialNumber));
+        return ResponseEntity.status(200).body(result);
     }
     @GetMapping("/order/cancelShipping")
     public ResponseEntity<Boolean> cancelShipping(@RequestParam String serialNumber) {
-        if(!orderService.cancelShipping(serialNumber)){
+        boolean result = orderService.cancelShipping(serialNumber);
+        if(!result){
             return ResponseEntity.status(409).body(false);
         }
-        return ResponseEntity.status(200).body(orderService.cancelShipping(serialNumber));
+        return ResponseEntity.status(200).body(result);
     }
     @GetMapping("/order/ship")
     public ResponseEntity<Boolean> ship(@RequestParam String serialNumber) {
-        if(!orderService.cancelShipping(serialNumber)){
+        boolean result = orderService.shipOrder(serialNumber);
+        if(!result){
             return ResponseEntity.status(409).body(false);
         }
-        return ResponseEntity.status(200).body(orderService.shipOrder(serialNumber));
+        return ResponseEntity.status(200).body(result);
     }
 }
