@@ -40,11 +40,11 @@ public class OrderFactory implements IOrderFactory{
         }
         order.setTotalPrice(total);
         order.setProducts(products);
-        order.setAccount(accountService.getAccount(order.getAccount().getEmail(), order.getAccount().getPassword()));
+        order.setAccount(accountService.getAccount(order.getAccount().getEmail()));
         if(total > order.getAccount().getBalance()) {
             return null;
         }
-//        order.setOrderType(OrderType.SimpleOrder);
+
         accountService.deduceBalance(total, order.getAccount());
         order.setStatus(OrderStatus.PLACED);
         order.setPlacementCancelDeadline(LocalDateTime.now().plusMinutes(1));
@@ -61,7 +61,7 @@ public class OrderFactory implements IOrderFactory{
             nwOrder.setShippingCost(order.getShippingCost() / order.getOrders().size());
             orders.add(nwOrder);
         }
-//        order.setOrderType(OrderType.CompoundOrder);
+
         order.setOrders(orders);
         order.setStatus(OrderStatus.PLACED);
         order.setPlacementCancelDeadline(LocalDateTime.now().plusMinutes(1));

@@ -58,12 +58,4 @@ public class OrderControllers {
         }
         return ResponseEntity.status(200).body(orderService.shipOrder(serialNumber));
     }
-//    @GetMapping("/order/{serialNumber}/shipCompoundOrder")
-//    public ResponseEntity<Boolean> shipCompoundOrder(@PathVariable("serialNumber") String serialNumber) {
-//        return ResponseEntity.status(201).body(orderService.shipCompoundOrder(serialNumber));
-//    }
-//    @GetMapping("/order/{serialNumber}/shipSimpleOrder")
-//    public ResponseEntity<Boolean> shipSimpleOrder(@PathVariable("serialNumber") String serialNumber) {
-//        return ResponseEntity.status(201).body(orderService.shipSimpleOrder(serialNumber));
-//    }
 }

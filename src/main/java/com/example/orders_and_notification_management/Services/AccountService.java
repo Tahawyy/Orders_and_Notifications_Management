@@ -42,4 +42,7 @@ public class AccountService {
     public Account getAccount(String email , String password) {
         return accounts.getAccount(email , password);
     }
+    public Account getAccount(String email) {
+        return accounts.getAccount(email);
+    }
 }
