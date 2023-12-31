@@ -20,14 +20,14 @@ public class OrderFactory implements IOrderFactory{
         this.notificationService = notificationService;
     }
     public Order createOrder(Order order , String serialNumber){
-        order.setSerialNumber(serialNumber);
         if(order instanceof SimpleOrder)
-            return setOrder((SimpleOrder)order);
+            return setOrder((SimpleOrder)order , serialNumber);
         else if(order instanceof CompoundOrder)
-            return setOrder((CompoundOrder)order);
+            return setOrder((CompoundOrder)order, serialNumber);
         return null;
     }
-    public SimpleOrder setOrder(SimpleOrder order){
+    public SimpleOrder setOrder(SimpleOrder order , String serialNumber){
+        order.setSerialNumber(serialNumber);
         ArrayList<Product> products = new ArrayList<>();
         for (Product p : order.getProducts()) {
             Product pr = productService.getProduct(p.getSerialNumber());
@@ -51,14 +51,14 @@ public class OrderFactory implements IOrderFactory{
         notificationService.sendPlacementNotification(order.getAccount(), order);
         return order;
     }
-    public CompoundOrder setOrder(CompoundOrder order){
+    public CompoundOrder setOrder(CompoundOrder order , String serialNumber){
+        order.setSerialNumber(serialNumber);
         ArrayList<SimpleOrder> orders = new ArrayList<>();
         for (SimpleOrder o : order.getOrders()) {
-            SimpleOrder nwOrder = setOrder(o);
+            SimpleOrder nwOrder = setOrder(o , order.getSerialNumber() + "-" + (orders.size()+1));
             if(nwOrder == null) {
                 return null;
             }
-            nwOrder.setSerialNumber(order.getSerialNumber() + "-" + (orders.size()+1));
             nwOrder.setShippingCost(order.getShippingCost() / order.getOrders().size());
             orders.add(nwOrder);
         }
